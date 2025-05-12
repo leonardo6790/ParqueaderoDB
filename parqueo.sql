@@ -26,5 +26,7 @@ CREATE TABLE Vehiculo(
     ID_TipoVehiculo tinyint
 );
 CREATE TABLE Parqueo(
-	
+	ID_Parqueo mediumint,
+    FechaLlegada datetime,
+    FechaSalida datetime
 );
