@@ -54,6 +54,7 @@ CREATE TABLE MetodosPago(
     MetodoPago varchar(15)
 );
 
+/*Llaves foraneas de tabla Vehiculos*/
 ALTER TABLE Vehiculo
 ADD CONSTRAINT FK_Vehiculos_Marca
 FOREIGN KEY (ID_Marca) REFERENCES Marca(ID_Marca);
