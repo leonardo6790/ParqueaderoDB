@@ -21,4 +21,16 @@ INSERT INTO TipoVehiculo (TipoVehiculo) VALUES ("Automovil"), ("Motocicleta"), (
 INSERT INTO Vehiculo (ID_Placa, ID_Marca, ID_Modelo, ID_Color, ID_TipoVehiculo) VALUES ("KFC 123", 5, 40, 3, 1);
 /*SELECT * FROM parqueadero.vehiculo*/
 
-CALL InsertarVehiculo ("ABC 54H", 15, 32, 1, 2);
+CALL InsertarVehiculo ("ABC 54H", 32, 15,  1, 2);
+CALL InsertarVehiculo ("IKT 879", 32, 10,  1, 1);
+
+/*CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarVehiculo`(
+IN Placa varchar(12),
+IN Modelo smallint,
+IN Marca tinyint,
+IN Color tinyint,
+IN TipoVehiculo tinyint
+)
+BEGIN
+ INSERT INTO Vehiculo (ID_Placa,ID_Marca,ID_Modelo,ID_Color,ID_TipoVehiculo) VALUES (Placa, Marca, Modelo, Color, TipoVehiculo);
+END--*/ 

@@ -87,3 +87,11 @@ FOREIGN KEY (ID_MetodoPago) REFERENCES MetodosPago (ID_MetodoPago);
 ALTER TABLE Puestos
 ADD CONSTRAINT FK_Puesto_Sotano
 FOREIGN KEY (ID_Sotano) REFERENCES Sotano (ID_Sotano);
+
+#inner join
+SELECT vih.ID_Placa, ma.Marca,mo.Modelo
+FROM Vehiculo as vih
+JOIN Marca as ma
+ON vih.ID_Marca = ma.ID_Marca
+JOIN Modelo as Mo
+On vih.ID_Modelo = mo.ID_Modelo
