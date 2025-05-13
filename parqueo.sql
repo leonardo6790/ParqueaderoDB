@@ -16,7 +16,7 @@ CREATE TABLE Color(
 );
 CREATE TABLE TipoVehiculo(
 	ID_TipoVehiculo tinyint primary key auto_increment,
-    TipoVehiculo varchar(12)
+    TipoVehiculo varchar(15)
 );
 CREATE TABLE Vehiculo(
 	ID_Placa varchar(12) primary key,
@@ -37,16 +37,18 @@ CREATE TABLE Parqueo(
 CREATE TABLE Puestos(
 	ID_Puestos tinyint primary key auto_increment,
     NumPuesto tinyint,
-    Estado boolean
+    Estado boolean,
+    ID_Sotano tinyint
 );
-CREATE TABLE Sotano(
+CREATE TABLE Sotano (
 	ID_Sotano tinyint primary key auto_increment,
-    Nivel tinyint
+	Nivel Varchar(5)
 );
+
 CREATE TABLE Pagos(
 	ID_Pagos mediumint primary key auto_increment,
     ValorPago mediumint,
-    ID_MetdodoPago tinyint,
+    ID_MetodoPago tinyint,
     ID_Parqueo mediumint
 );
 CREATE TABLE MetodosPago(
@@ -67,3 +69,21 @@ FOREIGN KEY (ID_Color) REFERENCES Color(ID_Color);
 ALTER TABLE Vehiculo
 ADD CONSTRAINT FK_Vehiculos_TipoVehiculo
 FOREIGN KEY (ID_TipoVehiculo) REFERENCES TipoVehiculo(ID_TipoVehiculo);
+
+/*Llaves foraneas de tabla Parqueo*/
+ALTER TABLE Parqueo
+ADD CONSTRAINT FK_Parqueo_Puesto
+FOREIGN KEY (ID_Puestos) REFERENCES Puestos (ID_Puestos);
+ALTER TABLE Parqueo
+ADD CONSTRAINT FK_Parqueo_Placa
+FOREIGN KEY (ID_Placa) REFERENCES Vehiculo (ID_Placa);
+
+/*Llaves foraneas de tabla pagos*/
+ALTER TABLE Pagos
+ADD CONSTRAINT FK_Pagos_Metodo
+FOREIGN KEY (ID_MetodoPago) REFERENCES MetodosPago (ID_MetodoPago);
+
+/*Llaves foraneas de tabla Puestos*/
+ALTER TABLE Puestos
+ADD CONSTRAINT FK_Puesto_Sotano
+FOREIGN KEY (ID_Sotano) REFERENCES Sotano (ID_Sotano);
