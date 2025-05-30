@@ -27,7 +27,7 @@ CREATE TABLE Vehiculo(
 );
 CREATE TABLE Parqueo(
 	ID_Parqueo mediumint primary key auto_increment,
-    FechaLlegada datetime,
+    FechaLlegada timestamp default current_timestamp,
     FechaSalida datetime,
     Costo mediumint,
     Tiempo time,
@@ -72,7 +72,7 @@ FOREIGN KEY (ID_TipoVehiculo) REFERENCES TipoVehiculo(ID_TipoVehiculo);
 
 /*Llaves foraneas de tabla Parqueo*/
 ALTER TABLE Parqueo
-ADD CONSTRAINT FK_Parqueo_Puesto
+ADD CONSTRAINT FK_Parqueo_Puestos
 FOREIGN KEY (ID_Puestos) REFERENCES Puestos (ID_Puestos);
 ALTER TABLE Parqueo
 ADD CONSTRAINT FK_Parqueo_Placa
@@ -89,9 +89,11 @@ ADD CONSTRAINT FK_Puesto_Sotano
 FOREIGN KEY (ID_Sotano) REFERENCES Sotano (ID_Sotano);
 
 #inner join
-SELECT vih.ID_Placa, ma.Marca,mo.Modelo
+SELECT vih.ID_Placa, ma.Marca,mo.Modelo,co.Color
 FROM Vehiculo as vih
 JOIN Marca as ma
 ON vih.ID_Marca = ma.ID_Marca
 JOIN Modelo as Mo
 On vih.ID_Modelo = mo.ID_Modelo
+JOIN Color as co
+ON vih.ID_Color = co.ID_Color
