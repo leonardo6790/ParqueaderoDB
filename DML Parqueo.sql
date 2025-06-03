@@ -22,7 +22,9 @@ INSERT INTO Vehiculo (ID_Placa, ID_Marca, ID_Modelo, ID_Color, ID_TipoVehiculo) 
 /*SELECT * FROM parqueadero.vehiculo*/
 
 CALL InsertarVehiculo ("IKT 879", 10, 32,11,1);
-CALL InsertarVehiculo ("IKT 879", 10, 32,11,1);
+
+
+
 INSERT INTO Puestos (NumPuesto)
 VALUES
 (1), (2), (3), (4), (5),

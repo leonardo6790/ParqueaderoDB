@@ -28,17 +28,6 @@ set min = TIMESTAMPDIFF(MINUTE,hora_entrada,now());
 RETURN min;
 END$$
 
-DELIMITER ;
-
-DELIMITER $$
-CREATE TRIGGER Elcaclculador3000
-AFTER INSERT 
-ON pago
-FOR EACH ROW
-BEGIN
-
-END;
-DELIMITER ;
 
 #procedure para pago
 USE `parqueadero`;
@@ -65,20 +54,52 @@ END$$
 DELIMITER ;
 ;
 
-DROP TRIGGER IF EXISTS `parqueadero`.`parqueo_BEFORE_INSERT`;
+USE `parqueadero`;
+DROP procedure IF EXISTS `InsertarParqueo`;
 
 DELIMITER $$
 USE `parqueadero`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `parqueadero`.`parqueo_BEFORE_INSERT` BEFORE INSERT ON `parqueo` FOR EACH ROW
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarParqueo`(
+in puesto tinyint(4),
+in placa varchar(12)
+)
 BEGIN
-	DECLARE cost int;
-    select Costo into cost from Parqueo
-	WHERE ID_Placa = NEW.ID_Placa
-    LIMIT 1;
-    
-    IF Costo is null then 
-    signal sqlstate '45000' SET message_text ='no se puede ingresar el mismo vehiculo si este no a pagado chichipato';
-    end if; 
+INSERT INTO Parqueo(ID_Puestos,ID_Placa) VALUES (puesto,placa);
+END$$
+
+#No dejar insertar un parqueo nuevo si el puesto que se introduce su estado es ocupado(True)
+DELIMITER ;
+DELIMITER $$
+CREATE FUNCTION PuestoDisponible (p_id_puesto TINYINT)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+    DECLARE v_estado BOOLEAN;
+    SELECT Estado INTO v_estado FROM Puestos WHERE ID_Puestos = p_id_puesto;
+    IF v_estado = 1 THEN
+        RETURN FALSE;
+    ELSE
+        RETURN TRUE;
+    END IF;
 END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE TRIGGER trg_VerificarPuesto
+BEFORE INSERT ON Parqueo
+FOR EACH ROW
+BEGIN
+    IF PuestoDisponible(NEW.ID_Puestos) = FALSE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: El puesto ya está ocupado.';
+    END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER trg_OcuparPuesto
+AFTER INSERT ON Parqueo
+FOR EACH ROW
+BEGIN
+    UPDATE Puestos SET Estado = 1 WHERE ID_Puestos = NEW.ID_Puestos;
+END$$
+DELIMITER ;

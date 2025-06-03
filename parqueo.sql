@@ -37,7 +37,7 @@ CREATE TABLE Parqueo(
 CREATE TABLE Puestos(
 	ID_Puestos tinyint primary key auto_increment,
     NumPuesto tinyint,
-    Estado boolean,
+    Estado BOOLEAN DEFAULT FALSE,
     ID_Sotano tinyint
 );
 CREATE TABLE Sotano (

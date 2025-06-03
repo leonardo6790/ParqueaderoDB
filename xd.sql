@@ -1,2 +1,2 @@
-select pagos ("IKT 879",now());
+select pagos ("IKT 879",now()) AS cobro;
                                    
